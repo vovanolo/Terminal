@@ -1,0 +1,33 @@
+---
+dist: trusty
+group: beta
+sudo: false
+language: ruby
+cache: bundler
+before_install:
+  - gem install bundler
+rvm:
+  - 2.0
+  - 2.1.10
+  - 2.2.10
+  - 2.3.7
+  - 2.4.4
+  - 2.5.1
+  - rbx-3
+  - jruby-9.1.16.0
+  - ruby-head
+  - jruby-head
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx-3
+  fast_finish: true
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+script:
+  - bundle exec rake
+  - cd test/integration && bundle install
+  - bundle exec ruby api.rb
